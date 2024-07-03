@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 名字、包的路径都必须和mapper中对应的接口相同 -->
+<!-- org.example.mapper.Mapper 对应resources 中的xml文件的名字也必须是这个 -->
+<!-- 对应mapper对应接口的全限定符 -->
+<mapper namespace="com.sky.mapper.DishMapper">
+    <!-- useGeneratedKeys用于获取得到的主键值 keyProperty用于将这个值赋给“id”,对应数据表的实体类中的属性  keyColumn 对应数据表中的那个主键" -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into dish(name, category_id, price, image, description, create_time, update_time, create_user, update_user,status)
+            values
+                (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{status})
+    </insert>
+
+    <select id="pageQuery" resultType="com.sky.vo.DishVO" >
+        select d.*, c.name from dish d
+        left join category c
+        on d.category_id = c.id
+        <where>
+            <if test="name != null">
+                and d.name like concat('%',#{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and d.status = #{status}
+            </if>
+
+        </where>
+        order by  d.create_time desc
+    </select>
+
+    <select id="deleteByIds" >
+        delete from dish where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="update">
+        update dish
+        <set>
+            <if test="name != null">name = #{name}, </if>
+            <if test="categoryId != null"> category_id = #{categoryId},  </if>
+            <if test="price != null"> price = #{price}, </if>
+            <if test="image!= null">  image = #{image}, </if>
+            <if test="description != null"> description = #{description}, </if>
+            <if test="status != null"> status = #{status}, </if>
+            <if test="updateTime != null">update_time = #{updateTime}, </if>
+            <if test="updateUser != null"> update_user = #{updateUser}, </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
