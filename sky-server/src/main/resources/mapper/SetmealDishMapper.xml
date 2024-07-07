@@ -4,7 +4,7 @@
 <!-- 名字、包的路径都必须和mapper中对应的接口相同 -->
 <!-- org.example.mapper.Mapper 对应resources 中的xml文件的名字也必须是这个 -->
 <!-- 对应mapper对应接口的全限定符 -->
-<mapper namespace="com.sky.mapper.SetMealDishMapper">
+<mapper namespace="com.sky.mapper.SetmealDishMapper">
     <!-- foreach collection 传入的是collection的名字 separator是分割符-->
     <select id="getMealDishIdsBySetId" resultType="java.lang.Long">
         select setmeal_id from setmeal_dish where dish_id in
@@ -12,5 +12,14 @@
                 #{dishId}
             </foreach>
     </select>
+
+    <insert id="insertBatch" parameterType="list">
+        insert into setmeal_dish
+        (setmeal_id,dish_id,name,price,copies)
+        values
+        <foreach collection="setmealDishes" item="sd" separator=",">
+            (#{sd.setmealId},#{sd.dishId},#{sd.name},#{sd.price},#{sd.copies})
+        </foreach>
+    </insert>
 
 </mapper>
