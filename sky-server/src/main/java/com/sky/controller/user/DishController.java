@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @RestController("userDishController")
 @RequestMapping("/user/dish")
@@ -51,7 +52,7 @@ public class DishController {
 
         // 不存在，查询数据库并放入redis
         list = dishService.listWithFlavor(dish);
-        redisTemplate.opsForValue().set(key, list);
+        redisTemplate.opsForValue().set(key, list, 1440, TimeUnit.MINUTES);
         return Result.success(list);
     }
 
