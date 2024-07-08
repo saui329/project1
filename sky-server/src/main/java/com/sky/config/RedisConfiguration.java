@@ -23,9 +23,9 @@ public class RedisConfiguration {
         // 使用StringRedisSerializer来序列化和反序列化redis的key和value
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringRedisSerializer);
-        redisTemplate.setValueSerializer(stringRedisSerializer);
-        redisTemplate.setHashKeySerializer(stringRedisSerializer);
-        redisTemplate.setHashValueSerializer(stringRedisSerializer);
+//        redisTemplate.setValueSerializer(stringRedisSerializer);
+//        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+//        redisTemplate.setHashValueSerializer(stringRedisSerializer);
         
         return  redisTemplate;
     }

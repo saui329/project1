@@ -22,7 +22,12 @@ public class ShopController {
     @ApiOperation("获取店铺的营业状态")
     public Result<String> getStatus(){
         String status = (String) redisTemplate.opsForValue().get("status");
-        log.info("获取的店铺的营业状态为：{}", status.equals("1") ? "营业中":"打烊中" );
+        if(status == null){
+            redisTemplate.opsForValue().set("status", 1);
+            status = (String) redisTemplate.opsForValue().get("status");
+        }
+
+        log.info("获取的店铺的营业状态为：{}", status.equals("1")? "营业中":"打烊中" );
         return Result.success(status);
     }
 }
