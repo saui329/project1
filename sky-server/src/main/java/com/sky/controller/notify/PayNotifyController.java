@@ -23,7 +23,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/notify")
 @Slf4j
-public class PayNotifyController {
+public class  PayNotifyController {
     @Autowired
     private OrderService orderService;
     @Autowired
